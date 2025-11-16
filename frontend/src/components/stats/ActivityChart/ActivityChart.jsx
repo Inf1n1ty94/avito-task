@@ -1,4 +1,3 @@
-// components/stats/ActivityChart.jsx
 import { Card, CardContent, Typography } from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 

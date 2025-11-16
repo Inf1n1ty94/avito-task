@@ -1,4 +1,3 @@
-// pages/StatsPage.jsx
 import { useQuery } from "@tanstack/react-query";
 import {
   getStatsSummary,
@@ -15,26 +14,33 @@ import CategoriesBarChart from "../../components/stats/Categories/Categories";
 import Navbar from "../../components/Navbar/Navbar";
 
 export default function StatsPage() {
+  
+  // модератор
   const { data: moderator } = useQuery({
     queryKey: ["moderatorInfo"],
     queryFn: getModeratorInfo,
   });
 
+  // статистика
   const { data: summary } = useQuery({
     queryKey: ["statsSummary"],
     queryFn: getStatsSummary,
   });
 
+  
+  // данные для графика активности
   const { data: activity } = useQuery({
     queryKey: ["activityChart"],
     queryFn: getActivityChart,
   });
 
+  // данные для графика решений
   const { data: decisions } = useQuery({
     queryKey: ["decisionsChart"],
     queryFn: getDecisionsChart,
   });
 
+  // данные для графика категорий
   const { data: categories } = useQuery({
     queryKey: ["categoriesChart"],
     queryFn: getCategoriesChart,

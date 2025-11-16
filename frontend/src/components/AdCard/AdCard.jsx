@@ -17,8 +17,10 @@ export default function AdCard({ ad }) {
   let statusColor;
   let textDecorationStyle;
 
+  // подчеркивание/нет по приоритету
   ad.priority === "urgent" ? textDecorationStyle = "underline" : "none";
   
+  // разные цвета для разного статуса объявлений
   ad.status === "approved" ? statusColor = "green" :
   ad.status === "rejected" ? statusColor = "red" :
                              statusColor = "orange";
@@ -27,12 +29,16 @@ export default function AdCard({ ad }) {
     
     <Box sx={{ width: "300px", height: "340px" }}>
       <Card>
+        
+        {/* изображение */}
         <CardMedia
           component="img"
           height="140"
-          image={ad.images[0] || "https://placehold.co/300x200?text=AdImage"}
+          image={ad.images[0]}
           alt={ad.title}
         />
+        
+        {/* контент внутри карточки */}
         <CardContent>
           <Typography gutterBottom variant="h6" component="div">
             {ad.title.split(":")[1]}
@@ -53,7 +59,7 @@ export default function AdCard({ ad }) {
             <Stack> 
               <Grid>  
                 <Typography variant="body2" color={statusColor}>
-                  {ad.status === "pending" ? "На модерации" : ad.status === "approved" ? "Одобрено" : "Отклонено"}
+                  {ad.status === "pending" ? "На модерации" : ad.status === "approved" ? "Одобрено" : ad.status === "draft" ? "На доработке": "Отклонено"}
                 </Typography>
               </Grid>
               <Grid>
@@ -64,6 +70,8 @@ export default function AdCard({ ad }) {
             </Stack>  
           </Grid>
         </CardContent>
+        
+        {/* кнопка подробнее */}
         <CardActions>
           <Box display={"flex"} alignItems={"center"} gap={12}>
             <Button

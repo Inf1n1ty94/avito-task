@@ -4,6 +4,7 @@ const api = axios.create({
   baseURL: "/api/v1",
 });
 
+// получение данных
 export const getAds = async (params) => {
   const response = await api.get("/ads", { params });
   return response.data;

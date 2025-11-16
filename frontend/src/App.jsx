@@ -16,7 +16,6 @@ export default function App() {
           <Route path="/ads/:id" element = {<DetailsPage />}/>
           <Route path="/stats" element = {<StatsPage />}/>
         </Routes>
-
       </div>
     </>
   )

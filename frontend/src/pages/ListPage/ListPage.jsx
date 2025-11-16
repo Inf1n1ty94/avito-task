@@ -27,12 +27,13 @@ export default function ListPage() {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
 
+  // запрос
   const { data, isLoading, isError } = useQuery({
     queryKey: [
       "ads",
       page,
       search,
-      status,
+      status.length > 0 ? status.join(",") : "none",
       categoryId,
       minPrice,
       maxPrice,
@@ -43,7 +44,7 @@ export default function ListPage() {
       getAds({
         page,
         search,
-        status,
+        status: status.length > 0 ? status : undefined,
         categoryId,
         minPrice,
         maxPrice,
@@ -53,6 +54,7 @@ export default function ListPage() {
     keepPreviousData: true,
   });
 
+  // сброс фильтров
   const resetFilters = () => {
     setSearch("");
     setStatus([]);

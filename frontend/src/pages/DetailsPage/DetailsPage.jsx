@@ -15,7 +15,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 
 import {
   Box,
@@ -41,16 +40,17 @@ export default function AdDetailsPage() {
   const [rejectReason, setRejectReason] = useState("");
   const [template, setTemplate] = useState("");
 
+  // загрузка объявления
   const { data: ad, isLoading } = useQuery({
     queryKey: ["ad", id],
     queryFn: () => getAdById(id),
   });
 
+  // мутиции на действия модератора
   const approveMutation = useMutation({
     mutationFn: () => approveAd(id),
     onSuccess: () => {
       client.invalidateQueries(["ad", id]);
-      client.invalidateQueries(["ads"]);
       navigate("/");
     },
   });
@@ -59,7 +59,6 @@ export default function AdDetailsPage() {
     mutationFn: () => rejectAd(id, { reason: rejectReason }),
     onSuccess: () => {
       client.invalidateQueries(["ad", id]);
-      client.invalidateQueries(["ads"]);
       navigate("/");
     },
   });
@@ -68,7 +67,6 @@ export default function AdDetailsPage() {
     mutationFn: () => requestChangesAd(id, { reason: rejectReason }),
     onSuccess: () => {
       client.invalidateQueries(["ad", id]);
-      client.invalidateQueries(["ads"]);
       navigate("/");
     },
   });
@@ -81,6 +79,7 @@ export default function AdDetailsPage() {
     }
   }, [template]);
 
+  // хоткеи на стрелки влево-вправо и A
   function Hotkeys(id, navigate, approve) {
     useEffect(() => {
       const handleKey = (event) => {
@@ -90,7 +89,7 @@ export default function AdDetailsPage() {
           navigate(`/ads/${Number(id) + 1}`);
         } else if (
           event.key.toLowerCase() === "a" &&
-          (ad.status === "rejected" || ad.status === "pending")
+          (ad.status === "rejected" || ad.status === "draft")
         ) {
           approve();
         }
@@ -103,6 +102,7 @@ export default function AdDetailsPage() {
 
   Hotkeys(id, navigate, () => approveMutation.mutate());
 
+  // лоудер
   if (isLoading) {
     return (
       <Box display="flex" justifyContent="center" mt={5}>
@@ -113,8 +113,9 @@ export default function AdDetailsPage() {
 
   if (!ad) return <p>Объявление не найдено</p>;
 
+  // обработчики на кнопки
   const handleReject = () => {
-    if (!rejectReason.trim()) {
+    if (!rejectReason) {
       alert("Укажите причину");
       return;
     }
@@ -122,7 +123,7 @@ export default function AdDetailsPage() {
   };
 
   const handleRequestChanges = () => {
-    if (!rejectReason.trim()) {
+    if (!rejectReason) {
       alert("Укажите причину");
       return;
     }
@@ -131,6 +132,7 @@ export default function AdDetailsPage() {
 
   return (
     <Box>
+      {/* навигация между объявлениями */}
       <Box display="flex" gap={2} justifyContent={"center"} mb={3}>
         <Button
           variant="outlined"
@@ -240,14 +242,14 @@ export default function AdDetailsPage() {
                 Одобрить
               </Button>
             )}
-
+            {ad.status !== "draft" && (
             <Button
               variant="contained"
               color="warning"
               onClick={handleRequestChanges}
             >
               На доработку
-            </Button>
+            </Button>)}
           </Stack>
 
           <Box mt={3} p={2} border="1px solid #ccc" borderRadius={2}>

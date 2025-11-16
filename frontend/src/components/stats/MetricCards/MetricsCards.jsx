@@ -1,4 +1,3 @@
-// components/stats/MetricCards/MetricsCards.jsx
 import { Grid, Card, CardContent, Typography } from "@mui/material";
 
 export default function MetricsCards({ stats, activity }) {

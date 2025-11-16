@@ -1,4 +1,3 @@
-// components/stats/CategoriesBarChart.jsx
 import { Card, CardContent, Typography } from "@mui/material";
 import {
   Tooltip,

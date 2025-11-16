@@ -3,9 +3,10 @@ import { useState } from "react";
 import PaginationBlock from "../PaginationBlock/PaginationBlock";
 
 export default function ModerationHistory({ ad }) {
-  const itemsPerPage = 3;
-
   const [page, setPage] = useState(1);
+  
+  // вычисления для отображения истории модерации и пагинации
+  const itemsPerPage = 3;
 
   const totalItems = ad.moderationHistory.length || 0;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -20,9 +21,9 @@ export default function ModerationHistory({ ad }) {
         История модерации
       </Typography>
 
-      {ad.moderationHistory.length === 0 ? (
+      {ad.moderationHistory.length === 0 && (
         <Typography>История отсутствует</Typography>
-      ) : null}
+      )}
 
       {/* история модерации */}
       {currentItems.map((moderationHistory) => (
@@ -31,11 +32,11 @@ export default function ModerationHistory({ ad }) {
             <b>Статус:</b> {moderationHistory.comment}
           </Typography>
 
-          {moderationHistory.reason ? (
+          {moderationHistory.reason && (
             <Typography>
               <b>Причина:</b> {moderationHistory.reason}
             </Typography>
-          ) : null }
+          )}
 
           <Typography>
             <b>Дата:</b>{" "}
@@ -57,13 +58,13 @@ export default function ModerationHistory({ ad }) {
       ))}
 
       {/* пагинация */}
-      {totalPages > 1 ? (
+      {totalPages > 1 && (
         <PaginationBlock
           page={page}
           totalPages={totalPages || 1}
           onChange={(value) => setPage(value)}
         />
-      ) : null}
+      )}
     </div>
   );
 }
