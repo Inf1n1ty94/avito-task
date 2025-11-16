@@ -15,7 +15,7 @@
 
 ## Запуск сервера
 
-cd .\tech-int3-server\
+cd .\avito-task\tech-int3-server\
 
 npm install
 
@@ -23,7 +23,7 @@ npm run dev
 
 ## Запуск клиента
 
-cd .\frontend\
+cd .\avito-task\frontend\
 
 npm install
 
